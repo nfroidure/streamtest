@@ -113,7 +113,9 @@ var StreamTest = {
         if(objects.length) {
           object = objects.shift();
         } else {
-          stream.emit('error', err);
+          setTimeout(function() {
+            stream.emit('error', err);
+          }, timeout);
         }
         setTimeout(function() {
           stream.push(object);
@@ -141,7 +143,9 @@ var StreamTest = {
         if(chunks.length) {
           chunk = chunks.shift();
         } else {
-          stream.emit('error', err);
+          setTimeout(function() {
+            stream.emit('error', err);
+          }, timeout);
         }
         setTimeout(function() {
           stream.push(chunk);
