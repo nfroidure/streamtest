@@ -3,6 +3,9 @@
 `streamtest` is a set of utils to test your stream based modules accross various
  stream implementations of NodeJS.
 
+In fact, this [repository's tests](https://github.com/nfroidure/streamtest/blob/master/tests/index.mocha.js)
+ is a perfect example of its own usage ;).
+
 [![NPM version](https://badge.fury.io/js/streamtest.png)](https://npmjs.org/package/streamtest) [![Build status](https://secure.travis-ci.org/nfroidure/streamtest.png)](https://travis-ci.org/nfroidure/streamtest) [![Dependency Status](https://david-dm.org/nfroidure/streamtest.png)](https://david-dm.org/nfroidure/streamtest) [![devDependency Status](https://david-dm.org/nfroidure/streamtest/dev-status.png)](https://david-dm.org/nfroidure/streamtest#info=devDependencies) [![Coverage Status](https://coveralls.io/repos/nfroidure/streamtest/badge.png?branch=master)](https://coveralls.io/r/nfroidure/streamtest?branch=master) [![Code Climate](https://codeclimate.com/github/nfroidure/streamtest.png)](https://codeclimate.com/github/nfroidure/streamtest)
 
 ## Installation
