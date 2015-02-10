@@ -22,8 +22,6 @@ Then, use it:
 ```js
 var streamtest = require('streamtest');
 
-
-
 describe('My Stream Lib', function() {
 
   // Iterating through versions
@@ -32,10 +30,23 @@ describe('My Stream Lib', function() {
     describe('for ' + version + ' streams', function() {
     
       // here goes your code
+      it('should work' {
+      
+        StreamTest[version].fromChunks(['a ', 'chunk', 'and', 'another'])
+          .pipe(myTestedStream)
+          .pipe(StreamTest[version].toText(function(err, text) {
+            if(err) {
+              done(err);
+            }
+            assert.equal(text, 'the text as i should be');
+            done();
+          }));
+      
+      });
     
     });
 
-  })
+  });
 
 });
 ```

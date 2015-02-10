@@ -13,9 +13,10 @@
     "url": "git@github.com:nfroidure/streamtest.git"
   },
   "keywords": [
-    "assert",
-    "deepEqual",
-    "neat"
+    "test",
+    "streams",
+    "stream1",
+    "stream2"
   ],
   "author": "Nicolas Froidure",
   "license": "MIT",
