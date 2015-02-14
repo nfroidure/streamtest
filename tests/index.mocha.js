@@ -5,7 +5,7 @@ describe('StreamTest', function() {
 
   describe('.versions', function() {
   
-    it('should contains versions', function() {
+    it('should contain versions', function() {
       assert.equal(StreamTest.versions.join(','), 'v1,v2')
     })
     
@@ -31,15 +31,14 @@ describe('StreamTest', function() {
       it('should report errors with buffers', function(done) {
         var expectedBuffers = [Buffer('test'), Buffer('test2')];
         var inputStream = StreamTest[version].fromErroredChunks(new Error('Ooops'), expectedBuffers.slice(0));
-        inputStream.on('error', function(err) {
-          outputStream.emit('error', err);
-        });
         var outputStream = StreamTest[version].toChunks(function(err, buffers) {
           assert(err);
           assert(!buffers);
           done();
         });
-        
+        inputStream.on('error', function(err) {
+          outputStream.emit('error', err);
+        });
         inputStream.pipe(outputStream);
       });
 

@@ -11,38 +11,34 @@ var StreamTest = {
     },
     fromObjects: function v1FromObjects(objects, timeout) {
       var stream = StreamTest.v1.readable();
-      setTimeout(function() {
-        StreamTest.v1.__emitToStream(stream, objects, timeout);
-      }, timeout || 0);
+      StreamTest.v1.__emitToStream(stream, objects || [], timeout);
       return stream;
     },
-    fromErroredObjects: function v1FromObjects(err, objects, timeout) {
+    fromErroredObjects: function v1FromErroredObjects(err, objects, timeout) {
       var stream = StreamTest.v1.readable();
-      setTimeout(function() {
-        StreamTest.v1.__emitToStream(stream, objects, timeout, function() {
-          stream.emit('error', err);
-        });
-      }, timeout || 0);
+      StreamTest.v1.__emitToStream(stream, objects || [], timeout, function() {
+        stream.emit('error', err);
+      });
       return stream;
     },
     fromChunks: function v1FromChunks() {
       return StreamTest.v1.fromObjects.apply(this, arguments);
     },
-    fromErroredChunks: function v1FromChunks() {
+    fromErroredChunks: function v1FromErroredChunks() {
       return StreamTest.v1.fromErroredObjects.apply(this, arguments);
     },
     __emitToStream: function v1EmitToStream(stream, chunks, timeout, endcb) {
-      if(!chunks.length) {
-        if(endcb) {
-          endcb();
-        }
-        stream.emit('end');
-      } else {
-        setTimeout(function() {
+      setTimeout(function() {
+        if(!chunks.length) {
+          setTimeout(stream.emit.bind(stream, 'end'), timeout || 0);
+          if(endcb) {
+            endcb();
+          }
+        } else {
           stream.emit('data', chunks.shift());
           StreamTest.v1.__emitToStream(stream, chunks, timeout, endcb);
-        }, timeout || 0);
-      }
+        }
+      }, timeout || 0);
     },
     writable: function v1Writable(options) {
       var stream = new Stream(options);
@@ -84,6 +80,31 @@ var StreamTest = {
         }
         cb(null, Buffer.concat(chunks).toString())
       });
+    },
+    syncReadableChunks: function v2SyncReadableChunks(chunks) {
+      return StreamTest.v1.readable();
+    },
+    syncReadableObjects: function v2SyncReadableObjects(chunks) {
+      return StreamTest.v1.readable();
+    },
+    syncWrite: function syncWrite(stream, chunks) {
+      chunks = chunks || [];
+      if(!chunks.length) {
+        stream.emit('end');
+      } else {
+        stream.emit('data', chunks.shift());
+        StreamTest.v1.syncWrite(stream, chunks);
+      }
+    },
+    syncError: function v2SyncError(stream, err, chunks) {
+      chunks = chunks || [];
+      if(!chunks.length) {
+        stream.emit('error', err);
+        stream.emit('end');
+      } else {
+        stream.emit('data', chunks.shift());
+        StreamTest.v1.syncWrite(stream, err, chunks);
+      }
     }
   },
 
@@ -95,6 +116,7 @@ var StreamTest = {
     },
     fromObjects: function v2FromObjects(objects, timeout) {
       var stream = StreamTest.v2.readable({objectMode: true});
+      objects = objects || [];
       stream._read = function() {
         var object = null;
         if(objects.length) {
@@ -102,12 +124,13 @@ var StreamTest = {
         }
         setTimeout(function() {
           stream.push(object);
-        }, timeout);
+        }, timeout || 0);
       };
       return stream;
     },
     fromErroredObjects: function v1FromErroredObjects(err, objects, timeout) {
       var stream = StreamTest.v2.readable({objectMode: true});
+      objects = objects || [];
       stream._read = function() {
         var object = null;
         if(objects.length) {
@@ -115,16 +138,17 @@ var StreamTest = {
         } else {
           setTimeout(function() {
             stream.emit('error', err);
-          }, timeout);
+          }, timeout || 0);
         }
         setTimeout(function() {
           stream.push(object);
-        }, timeout);
+        }, timeout || 0);
       };
       return stream;
     },
     fromChunks: function v2FromChunks(chunks, timeout) {
       var stream = StreamTest.v2.readable();
+      chunks = chunks || [];
       stream._read = function() {
         var chunk = null;
         if(chunks.length) {
@@ -132,12 +156,13 @@ var StreamTest = {
         }
         setTimeout(function() {
           stream.push(chunk);
-        }, timeout);
+        }, timeout || 0);
       };
       return stream;
     },
-    fromErroredChunks: function v2FromChunks(err, chunks, timeout) {
+    fromErroredChunks: function v2FromErroredChunks(err, chunks, timeout) {
       var stream = StreamTest.v2.readable();
+      chunks = chunks || [];
       stream._read = function() {
         var chunk = null;
         if(chunks.length) {
@@ -145,11 +170,11 @@ var StreamTest = {
         } else {
           setTimeout(function() {
             stream.emit('error', err);
-          }, timeout);
+          }, timeout || 0);
         }
         setTimeout(function() {
           stream.push(chunk);
-        }, timeout);
+        }, timeout || 0);
       };
       return stream;
     },
@@ -197,6 +222,31 @@ var StreamTest = {
         }
         cb(null, Buffer.concat(chunks).toString())
       });
+    },
+    syncReadableChunks: function v2SyncReadableChunks(chunks) {
+      return new Stream.PassThrough();
+    },
+    syncReadableObjects: function v2SyncReadableObjects(chunks) {
+      return new Stream.PassThrough({objectMode: true});
+    },
+    syncWrite: function v2SyncWrite(stream, chunks) {
+      chunks = chunks || [];
+      if(!chunks.length) {
+        stream.end();
+      } else {
+        stream.write(chunks.shift());
+        StreamTest.v2.syncWrite(stream, chunks);
+      }
+    },
+    syncError: function v2SyncError(stream, err, chunks) {
+      chunks = chunks || [];
+      if(!chunks.length) {
+        stream.emit('error', err);
+        stream.end();
+      } else {
+        stream.write(chunks.shift());
+        StreamTest.v2.syncError(stream, err, chunks);
+      }
     }
   }
 };
