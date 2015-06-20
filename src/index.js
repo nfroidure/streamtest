@@ -198,13 +198,13 @@ var StreamTest = {
       return stream;
     },
     toChunks: function v2ToChunks(cb) {
-      var stream = new StreamTest.v2.writable({objectMode: true});
+      var stream = new StreamTest.v2.writable();
       var chunks = [];
       stream._write = function (chunk, encoding, done) {
         if(encoding && 'buffer' != encoding) {
           chunk = Buffer(chunk.toString(encoding))
         }
-        chunks.push(Buffer(chunk));
+        chunks.push(chunk);
         done();
       };
       stream.on('finish', function() {
