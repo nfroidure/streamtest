@@ -94,6 +94,13 @@ Create a writable stream collecting written `chunks` and calling the `cb`
 
 The `cb` function take in an error and an Array of objects.
 
+### StreamTest[version].toText(cb:Function)
+
+Create a writable stream collecting written `chunks` and calling the `cb`
+ function when it finishes with the whole content converted to text.
+
+The `cb` function take in an error and a string.
+
 ## Contribute
 
 Feel free to submit us your improvements. To do so, you must accept to publish
