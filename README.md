@@ -12,7 +12,7 @@ In fact, this [repository's tests](https://github.com/nfroidure/streamtest/blob/
 
 First install `streamtest` in your project:
 ```sh
-npm install --save streamtest
+npm install --save-dev streamtest
 ```
 
 ## Getting started
@@ -20,7 +20,7 @@ npm install --save streamtest
 Then, use it:
 
 ```js
-var streamtest = require('streamtest');
+var StreamTest = require('streamtest');
 
 describe('My Stream Lib', function() {
 
@@ -28,10 +28,10 @@ describe('My Stream Lib', function() {
   StreamTest.versions.forEach(function(version) {
 
     describe('for ' + version + ' streams', function() {
-    
+
       // here goes your code
-      it('should work' {
-      
+      it('should work', function(done) {
+
         StreamTest[version].fromChunks(['a ', 'chunk', 'and', 'another'])
           .pipe(myTestedStream)
           .pipe(StreamTest[version].toText(function(err, text) {
@@ -41,9 +41,9 @@ describe('My Stream Lib', function() {
             assert.equal(text, 'the text as i should be');
             done();
           }));
-      
+
       });
-    
+
     });
 
   });
@@ -122,4 +122,3 @@ npm test
 ## Stats
 [![NPM](https://nodei.co/npm/streamtest.png?downloads=true&stars=true)](https://nodei.co/npm/streamtest/)
 [![NPM](https://nodei.co/npm-dl/streamtest.png)](https://nodei.co/npm/streamtest/)
-
