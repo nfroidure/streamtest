@@ -97,7 +97,7 @@ var StreamTest = {
       }
     },
     syncError: function v2SyncError(stream, err, chunks) {
-      chunks = chunks || [];
+      chunks = chunks || [];
       if(!chunks.length) {
         stream.emit('error', err);
         stream.emit('end');
@@ -230,7 +230,7 @@ var StreamTest = {
       return new Stream.PassThrough({objectMode: true});
     },
     syncWrite: function v2SyncWrite(stream, chunks) {
-      chunks = chunks || [];
+      chunks = chunks || [];
       if(!chunks.length) {
         stream.end();
       } else {
@@ -239,7 +239,7 @@ var StreamTest = {
       }
     },
     syncError: function v2SyncError(stream, err, chunks) {
-      chunks = chunks || [];
+      chunks = chunks || [];
       if(!chunks.length) {
         stream.emit('error', err);
         stream.end();
