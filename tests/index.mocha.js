@@ -4,13 +4,13 @@ var StreamTest = require('../src');
 describe('StreamTest', function() {
 
   describe('.versions', function() {
-  
+
     it('should contain versions', function() {
-      assert.equal(StreamTest.versions.join(','), 'v1,v2')
-    })
-    
+      assert.equal(StreamTest.versions.join(','), 'v1,v2');
+    });
+
   });
-  
+
   StreamTest.versions.forEach(function(version) {
     describe('for ' + version + ' streams', function() {
 
@@ -24,7 +24,7 @@ describe('StreamTest', function() {
           assert.deepEqual(buffers, expectedBuffers);
           done();
         });
-        
+
         inputStream.pipe(outputStream);
       });
 
@@ -52,7 +52,7 @@ describe('StreamTest', function() {
           assert.deepEqual(buffers, expectedBuffers.join(''));
           done();
         });
-        
+
         inputStream.pipe(outputStream);
       });
 
@@ -67,7 +67,7 @@ describe('StreamTest', function() {
           assert(!buffers);
           done();
         });
-        
+
         inputStream.pipe(outputStream);
       });
 
@@ -85,7 +85,7 @@ describe('StreamTest', function() {
           assert.deepEqual(objs, expectedObjs);
           done();
         });
-        
+
         inputStream.pipe(outputStream);
       });
 
@@ -104,13 +104,12 @@ describe('StreamTest', function() {
           assert(!objs);
           done();
         });
-        
+
         inputStream.pipe(outputStream);
       });
 
     });
 
   });
-  
-});
 
+});

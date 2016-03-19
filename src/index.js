@@ -78,7 +78,7 @@ var StreamTest = {
         if(err) {
           return cb(err);
         }
-        cb(null, Buffer.concat(chunks).toString())
+        cb(null, Buffer.concat(chunks).toString());
       });
     },
     syncReadableChunks: function v2SyncReadableChunks(chunks) {
@@ -202,7 +202,7 @@ var StreamTest = {
       var chunks = [];
       stream._write = function (chunk, encoding, done) {
         if(encoding && 'buffer' != encoding) {
-          chunk = Buffer(chunk.toString(encoding))
+          chunk = Buffer(chunk.toString(encoding));
         }
         chunks.push(chunk);
         done();
@@ -220,7 +220,7 @@ var StreamTest = {
         if(err) {
           return cb(err);
         }
-        cb(null, Buffer.concat(chunks).toString())
+        cb(null, Buffer.concat(chunks).toString());
       });
     },
     syncReadableChunks: function v2SyncReadableChunks(chunks) {
@@ -252,4 +252,3 @@ var StreamTest = {
 };
 
 module.exports = StreamTest;
-
