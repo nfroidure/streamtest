@@ -81,10 +81,10 @@ var StreamTest = {
         cb(null, Buffer.concat(chunks).toString());
       });
     },
-    syncReadableChunks: function v2SyncReadableChunks(chunks) {
+    syncReadableChunks: function v1SyncReadableChunks(chunks) {
       return StreamTest.v1.readable();
     },
-    syncReadableObjects: function v2SyncReadableObjects(chunks) {
+    syncReadableObjects: function v1SyncReadableObjects(chunks) {
       return StreamTest.v1.readable();
     },
     syncWrite: function syncWrite(stream, chunks) {
@@ -96,7 +96,7 @@ var StreamTest = {
         StreamTest.v1.syncWrite(stream, chunks);
       }
     },
-    syncError: function v2SyncError(stream, err, chunks) {
+    syncError: function v1SyncError(stream, err, chunks) {
       chunks = chunks || [];
       if(!chunks.length) {
         stream.emit('error', err);
@@ -128,7 +128,7 @@ var StreamTest = {
       };
       return stream;
     },
-    fromErroredObjects: function v1FromErroredObjects(err, objects, timeout) {
+    fromErroredObjects: function v2FromErroredObjects(err, objects, timeout) {
       var stream = StreamTest.v2.readable({objectMode: true});
       objects = objects || [];
       stream._read = function() {
