@@ -88,7 +88,7 @@ var StreamTest = {
       return StreamTest.v1.readable();
     },
     syncWrite: function syncWrite(stream, chunks) {
-      chunks = chunks || [];
+      chunks = chunks || [];
       if(!chunks.length) {
         stream.emit('end');
       } else {
