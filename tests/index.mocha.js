@@ -1,25 +1,29 @@
-var assert = require('assert');
-var StreamTest = require('../src');
+/* eslint max-nested-callbacks:[0], no-magic-numbers:[0] */
+'use strict';
 
-describe('StreamTest', function() {
+const assert = require('assert');
+const StreamTest = require('../src');
 
-  describe('.versions', function() {
+describe('StreamTest', () => {
 
-    it('should contain versions', function() {
+  describe('.versions', () => {
+
+    it('should contain versions', () => {
       assert.equal(StreamTest.versions.join(','), 'v1,v2');
     });
 
   });
 
-  StreamTest.versions.forEach(function(version) {
-    describe('for ' + version + ' streams', function() {
+  StreamTest.versions.forEach((version) => {
+    describe('for ' + version + ' streams', () => {
 
-      it('should work with buffers', function(done) {
-        var expectedBuffers = [Buffer('test'), Buffer('test2')];
-        var inputStream = StreamTest[version].fromChunks(expectedBuffers.slice(0));
-        var outputStream = StreamTest[version].toChunks(function(err, buffers) {
+      it('should work with buffers', (done) => {
+        const expectedBuffers = [new Buffer('test'), new Buffer('test2')];
+        const inputStream = StreamTest[version].fromChunks(expectedBuffers.slice(0));
+        const outputStream = StreamTest[version].toChunks((err, buffers) => {
           if(err) {
-            return done(err);
+            done(err);
+            return;
           }
           assert.deepEqual(buffers, expectedBuffers);
           done();
@@ -28,26 +32,31 @@ describe('StreamTest', function() {
         inputStream.pipe(outputStream);
       });
 
-      it('should report errors with buffers', function(done) {
-        var expectedBuffers = [Buffer('test'), Buffer('test2')];
-        var inputStream = StreamTest[version].fromErroredChunks(new Error('Ooops'), expectedBuffers.slice(0));
-        var outputStream = StreamTest[version].toChunks(function(err, buffers) {
+      it('should report errors with buffers', (done) => {
+        const expectedBuffers = [new Buffer('test'), new Buffer('test2')];
+        const inputStream = StreamTest[version].fromErroredChunks(
+          new Error('Ooops'),
+          expectedBuffers.slice(0)
+        );
+        const outputStream = StreamTest[version].toChunks((err, buffers) => {
           assert(err);
           assert(!buffers);
           done();
         });
-        inputStream.on('error', function(err) {
+
+        inputStream.on('error', (err) => {
           outputStream.emit('error', err);
         });
         inputStream.pipe(outputStream);
       });
 
-      it('should work when wanting whole text', function(done) {
-        var expectedBuffers = ['test', 'test2'];
-        var inputStream = StreamTest[version].fromObjects(expectedBuffers.slice(0));
-        var outputStream = StreamTest[version].toText(function(err, buffers) {
+      it('should work when wanting whole text', (done) => {
+        const expectedBuffers = ['test', 'test2'];
+        const inputStream = StreamTest[version].fromObjects(expectedBuffers.slice(0));
+        const outputStream = StreamTest[version].toText((err, buffers) => {
           if(err) {
-            return done(err);
+            done(err);
+            return;
           }
           assert.deepEqual(buffers, expectedBuffers.join(''));
           done();
@@ -56,31 +65,36 @@ describe('StreamTest', function() {
         inputStream.pipe(outputStream);
       });
 
-      it('should report errors when wanting whole text', function(done) {
-        var expectedBuffers = [Buffer('test'), Buffer('test2')];
-        var inputStream = StreamTest[version].fromErroredChunks(new Error('Ooops'), expectedBuffers.slice(0));
-        inputStream.on('error', function(err) {
-          outputStream.emit('error', err);
-        });
-        var outputStream = StreamTest[version].toText(function(err, buffers) {
+      it('should report errors when wanting whole text', (done) => {
+        const expectedBuffers = [new Buffer('test'), new Buffer('test2')];
+        const inputStream = StreamTest[version].fromErroredChunks(
+          new Error('Ooops'),
+          expectedBuffers.slice(0)
+        );
+        const outputStream = StreamTest[version].toText((err, buffers) => {
           assert(err);
           assert(!buffers);
           done();
         });
 
+        inputStream.on('error', (err) => {
+          outputStream.emit('error', err);
+        });
+
         inputStream.pipe(outputStream);
       });
 
-      it('should work with objects', function(done) {
-        var expectedObjs = [{
-          test: 'test'
+      it('should work with objects', (done) => {
+        const expectedObjs = [{
+          test: 'test',
         }, {
-          test: 'test2'
+          test: 'test2',
         }];
-        var inputStream = StreamTest[version].fromObjects(expectedObjs.slice(0));
-        var outputStream = StreamTest[version].toObjects(function(err, objs) {
+        const inputStream = StreamTest[version].fromObjects(expectedObjs.slice(0));
+        const outputStream = StreamTest[version].toObjects((err, objs) => {
           if(err) {
-            return done(err);
+            done(err);
+            return;
           }
           assert.deepEqual(objs, expectedObjs);
           done();
@@ -89,20 +103,24 @@ describe('StreamTest', function() {
         inputStream.pipe(outputStream);
       });
 
-      it('should report errors with objects', function(done) {
-        var expectedObjs = [{
-          test: 'test'
+      it('should report errors with objects', (done) => {
+        const expectedObjs = [{
+          test: 'test',
         }, {
-          test: 'test2'
+          test: 'test2',
         }];
-        var inputStream = StreamTest[version].fromErroredObjects(new Error('Ooops'), expectedObjs.slice(0));
-        inputStream.on('error', function(err) {
-          outputStream.emit('error', err);
-        });
-        var outputStream = StreamTest[version].toObjects(function(err, objs) {
+        const inputStream = StreamTest[version].fromErroredObjects(
+          new Error('Ooops'),
+          expectedObjs.slice(0)
+        );
+        const outputStream = StreamTest[version].toObjects((err, objs) => {
           assert(err);
           assert(!objs);
           done();
+        });
+
+        inputStream.on('error', (err) => {
+          outputStream.emit('error', err);
         });
 
         inputStream.pipe(outputStream);

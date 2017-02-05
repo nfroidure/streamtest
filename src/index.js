@@ -1,22 +1,27 @@
-var Stream = require('stream');
+'use strict';
 
-var StreamTest = {
+const Stream = require('stream');
+
+const StreamTest = {
   versions: ['v1', 'v2'],
   // Node lt 0.10 streams
   v1: {
     readable: function v1Readable(options) {
-      var stream = new Stream(options);
+      const stream = new Stream(options);
+
       stream.readable = true;
       return stream;
     },
     fromObjects: function v1FromObjects(objects, timeout) {
-      var stream = StreamTest.v1.readable();
+      const stream = StreamTest.v1.readable();
+
       StreamTest.v1.__emitToStream(stream, objects || [], timeout);
       return stream;
     },
     fromErroredObjects: function v1FromErroredObjects(err, objects, timeout) {
-      var stream = StreamTest.v1.readable();
-      StreamTest.v1.__emitToStream(stream, objects || [], timeout, function() {
+      const stream = StreamTest.v1.readable();
+
+      StreamTest.v1.__emitToStream(stream, objects || [], timeout, () => {
         stream.emit('error', err);
       });
       return stream;
@@ -28,7 +33,7 @@ var StreamTest = {
       return StreamTest.v1.fromErroredObjects.apply(this, arguments);
     },
     __emitToStream: function v1EmitToStream(stream, chunks, timeout, endcb) {
-      setTimeout(function() {
+      setTimeout(() => {
         if(!chunks.length) {
           setTimeout(stream.emit.bind(stream, 'end'), timeout || 0);
           if(endcb) {
@@ -41,42 +46,46 @@ var StreamTest = {
       }, timeout || 0);
     },
     writable: function v1Writable(options) {
-      var stream = new Stream(options);
+      const stream = new Stream(options);
+
       stream.writable = true;
       return stream;
     },
     toObjects: function v1ToObjects(cb) {
-      var objs = [];
-      var stream = StreamTest.v1.writable();
-      stream.write = function(obj) {
+      const objs = [];
+      const stream = StreamTest.v1.writable();
+
+      stream.write = (obj) => {
         objs.push(obj);
       };
-      stream.end = function() {
+      stream.end = () => {
         cb(null, objs);
       };
-      stream.on('error', function(err) {
+      stream.on('error', (err) => {
         cb(err);
       });
       return stream;
     },
     toChunks: function v1ToChunks(cb) {
-      var chunks = [];
-      var stream = StreamTest.v1.writable();
-      stream.write = function(chunk, encoding) {
-        chunks.push(Buffer(chunk));
+      const chunks = [];
+      const stream = StreamTest.v1.writable();
+
+      stream.write = (chunk, encoding) => {
+        chunks.push(new Buffer(chunk));
       };
-      stream.end = function() {
+      stream.end = () => {
         cb(null, chunks);
       };
-      stream.on('error', function(err) {
+      stream.on('error', (err) => {
         cb(err);
       });
       return stream;
     },
     toText: function v1ToText(cb) {
-      return StreamTest.v1.toChunks(function(err, chunks) {
+      return StreamTest.v1.toChunks((err, chunks) => {
         if(err) {
-          return cb(err);
+          cb(err);
+          return;
         }
         cb(null, Buffer.concat(chunks).toString());
       });
@@ -105,120 +114,133 @@ var StreamTest = {
         stream.emit('data', chunks.shift());
         StreamTest.v1.syncWrite(stream, err, chunks);
       }
-    }
+    },
   },
 
   // Node gte 0.10 streams
   v2: {
     readable: function v2Readable(options) {
-      var stream = new Stream.Readable(options);
+      const stream = new Stream.Readable(options);
+
       return stream;
     },
     fromObjects: function v2FromObjects(objects, timeout) {
-      var stream = StreamTest.v2.readable({objectMode: true});
+      const stream = StreamTest.v2.readable({ objectMode: true });
+
       objects = objects || [];
-      stream._read = function() {
-        var object = null;
+      stream._read = () => {
+        let object = null;
+
         if(objects.length) {
           object = objects.shift();
         }
-        setTimeout(function() {
+        setTimeout(() => {
           stream.push(object);
         }, timeout || 0);
       };
       return stream;
     },
     fromErroredObjects: function v2FromErroredObjects(err, objects, timeout) {
-      var stream = StreamTest.v2.readable({objectMode: true});
+      const stream = StreamTest.v2.readable({ objectMode: true });
+
       objects = objects || [];
-      stream._read = function() {
-        var object = null;
+      stream._read = () => {
+        let object = null;
+
         if(objects.length) {
           object = objects.shift();
         } else {
-          setTimeout(function() {
+          setTimeout(() => {
             stream.emit('error', err);
           }, timeout || 0);
         }
-        setTimeout(function() {
+        setTimeout(() => {
           stream.push(object);
         }, timeout || 0);
       };
       return stream;
     },
     fromChunks: function v2FromChunks(chunks, timeout) {
-      var stream = StreamTest.v2.readable();
+      const stream = StreamTest.v2.readable();
+
       chunks = chunks || [];
-      stream._read = function() {
-        var chunk = null;
+      stream._read = () => {
+        let chunk = null;
+
         if(chunks.length) {
           chunk = chunks.shift();
         }
-        setTimeout(function() {
+        setTimeout(() => {
           stream.push(chunk);
         }, timeout || 0);
       };
       return stream;
     },
     fromErroredChunks: function v2FromErroredChunks(err, chunks, timeout) {
-      var stream = StreamTest.v2.readable();
+      const stream = StreamTest.v2.readable();
+
       chunks = chunks || [];
-      stream._read = function() {
-        var chunk = null;
+      stream._read = () => {
+        let chunk = null;
+
         if(chunks.length) {
           chunk = chunks.shift();
         } else {
-          setTimeout(function() {
+          setTimeout(() => {
             stream.emit('error', err);
           }, timeout || 0);
         }
-        setTimeout(function() {
+        setTimeout(() => {
           stream.push(chunk);
         }, timeout || 0);
       };
       return stream;
     },
     writable: function v2Writable(options) {
-      var stream = new Stream.Writable(options);
+      const stream = new Stream.Writable(options);
+
       return stream;
     },
     toObjects: function v2ToObjects(cb) {
-      var stream = new StreamTest.v2.writable({objectMode: true});
-      var objs = [];
-      stream._write = function (obj, unused, done) {
+      const stream = StreamTest.v2.writable({ objectMode: true });
+      const objs = [];
+
+      stream._write = (obj, unused, done) => {
         objs.push(obj);
         done();
       };
-      stream.on('finish', function() {
+      stream.on('finish', () => {
         cb(null, objs);
       });
-      stream.on('error', function(err) {
+      stream.on('error', (err) => {
         cb(err);
       });
       return stream;
     },
     toChunks: function v2ToChunks(cb) {
-      var stream = new StreamTest.v2.writable();
-      var chunks = [];
-      stream._write = function (chunk, encoding, done) {
-        if(encoding && 'buffer' != encoding) {
-          chunk = Buffer(chunk.toString(encoding));
+      const stream = StreamTest.v2.writable();
+      const chunks = [];
+
+      stream._write = (chunk, encoding, done) => {
+        if(encoding && 'buffer' !== encoding) {
+          chunk = new Buffer(chunk.toString(encoding));
         }
         chunks.push(chunk);
         done();
       };
-      stream.on('finish', function() {
+      stream.on('finish', () => {
         cb(null, chunks);
       });
-      stream.on('error', function(err) {
+      stream.on('error', (err) => {
         cb(err);
       });
       return stream;
     },
     toText: function v2ToText(cb) {
-      return StreamTest.v2.toChunks(function(err, chunks) {
+      return StreamTest.v2.toChunks((err, chunks) => {
         if(err) {
-          return cb(err);
+          cb(err);
+          return;
         }
         cb(null, Buffer.concat(chunks).toString());
       });
@@ -227,7 +249,7 @@ var StreamTest = {
       return new Stream.PassThrough();
     },
     syncReadableObjects: function v2SyncReadableObjects(chunks) {
-      return new Stream.PassThrough({objectMode: true});
+      return new Stream.PassThrough({ objectMode: true });
     },
     syncWrite: function v2SyncWrite(stream, chunks) {
       chunks = chunks || [];
@@ -247,8 +269,8 @@ var StreamTest = {
         stream.write(chunks.shift());
         StreamTest.v2.syncError(stream, err, chunks);
       }
-    }
-  }
+    },
+  },
 };
 
 module.exports = StreamTest;

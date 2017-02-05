@@ -3,10 +3,21 @@
   "version": "1.2.2",
   "description": "Streams test library",
   "main": "src/index.js",
+  "metapak": {
+    "data": {
+      "testsFiles": "tests/*.mocha.js",
+      "files": "src/*.js tests/*.mocha.js"
+    }
+  },
   "scripts": {
-    "test": "mocha tests/*.mocha.js",
-    "coveralls": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha --report lcovonly -- tests/*.mocha.js -R spec -t 5000 && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
-    "cover": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha --report html -- tests/*.mocha.js -R spec -t 5000"
+    "cli": "env NODE_ENV=${NODE_ENV:-cli}",
+    "cover": "istanbul cover _mocha --report html -- tests/*.mocha.js -R spec -t 5000",
+    "coveralls": "istanbul cover _mocha --report lcovonly -- tests/*.mocha.js -R spec -t 5000 && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
+    "lint": "eslint src/*.js tests/*.mocha.js",
+    "metapak": "metapak || echo 'Please `npm install --save-dev metapak`' exit 0",
+    "postinstall": "npm run metapak",
+    "preversion": "npm t && npm run lint",
+    "test": "mocha tests/*.mocha.js"
   },
   "repository": {
     "type": "git",
@@ -25,11 +36,20 @@
   },
   "homepage": "https://github.com/nfroidure/streamtest",
   "devDependencies": {
-    "coveralls": "^2.11.8",
-    "istanbul": "^0.4.2",
-    "mocha": "^2.4.5"
+    "coveralls": "2.11.15",
+    "eslint": "3.4.0",
+    "eslint-config-simplifield": "4.1.1",
+    "istanbul": "0.4.5",
+    "metapak": "0.0.13",
+    "metapak-nfroidure": "0.0.9",
+    "mocha": "3.2.0",
+    "mocha-lcov-reporter": "1.2.0"
   },
   "dependencies": {
+    "debug": "1.0.0",
     "readable-stream": "^2.0.5"
+  },
+  "engines": {
+    "node": ">=6.9.5"
   }
 }
