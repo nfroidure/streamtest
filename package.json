@@ -61,7 +61,6 @@
     "prettier": "^1.8.2"
   },
   "dependencies": {
-    "debug": "2.6.1",
     "readable-stream": "^2.0.5"
   },
   "engines": {
