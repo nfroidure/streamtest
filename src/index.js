@@ -34,9 +34,9 @@ const StreamTest = {
     },
     __emitToStream: function v1EmitToStream(stream, chunks, timeout, endcb) {
       setTimeout(() => {
-        if(!chunks.length) {
+        if (!chunks.length) {
           setTimeout(stream.emit.bind(stream, 'end'), timeout || 0);
-          if(endcb) {
+          if (endcb) {
             endcb();
           }
         } else {
@@ -55,13 +55,13 @@ const StreamTest = {
       const objs = [];
       const stream = StreamTest.v1.writable();
 
-      stream.write = (obj) => {
+      stream.write = obj => {
         objs.push(obj);
       };
       stream.end = () => {
         cb(null, objs);
       };
-      stream.on('error', (err) => {
+      stream.on('error', err => {
         cb(err);
       });
       return stream;
@@ -70,35 +70,35 @@ const StreamTest = {
       const chunks = [];
       const stream = StreamTest.v1.writable();
 
-      stream.write = (chunk, encoding) => {
+      stream.write = chunk => {
         chunks.push(new Buffer(chunk));
       };
       stream.end = () => {
         cb(null, chunks);
       };
-      stream.on('error', (err) => {
+      stream.on('error', err => {
         cb(err);
       });
       return stream;
     },
     toText: function v1ToText(cb) {
       return StreamTest.v1.toChunks((err, chunks) => {
-        if(err) {
+        if (err) {
           cb(err);
           return;
         }
         cb(null, Buffer.concat(chunks).toString());
       });
     },
-    syncReadableChunks: function v1SyncReadableChunks(chunks) {
+    syncReadableChunks: function v1SyncReadableChunks() {
       return StreamTest.v1.readable();
     },
-    syncReadableObjects: function v1SyncReadableObjects(chunks) {
+    syncReadableObjects: function v1SyncReadableObjects() {
       return StreamTest.v1.readable();
     },
     syncWrite: function syncWrite(stream, chunks) {
       chunks = chunks || [];
-      if(!chunks.length) {
+      if (!chunks.length) {
         stream.emit('end');
       } else {
         stream.emit('data', chunks.shift());
@@ -107,7 +107,7 @@ const StreamTest = {
     },
     syncError: function v1SyncError(stream, err, chunks) {
       chunks = chunks || [];
-      if(!chunks.length) {
+      if (!chunks.length) {
         stream.emit('error', err);
         stream.emit('end');
       } else {
@@ -131,7 +131,7 @@ const StreamTest = {
       stream._read = () => {
         let object = null;
 
-        if(objects.length) {
+        if (objects.length) {
           object = objects.shift();
         }
         setTimeout(() => {
@@ -147,7 +147,7 @@ const StreamTest = {
       stream._read = () => {
         let object = null;
 
-        if(objects.length) {
+        if (objects.length) {
           object = objects.shift();
         } else {
           setTimeout(() => {
@@ -167,7 +167,7 @@ const StreamTest = {
       stream._read = () => {
         let chunk = null;
 
-        if(chunks.length) {
+        if (chunks.length) {
           chunk = chunks.shift();
         }
         setTimeout(() => {
@@ -183,7 +183,7 @@ const StreamTest = {
       stream._read = () => {
         let chunk = null;
 
-        if(chunks.length) {
+        if (chunks.length) {
           chunk = chunks.shift();
         } else {
           setTimeout(() => {
@@ -212,7 +212,7 @@ const StreamTest = {
       stream.on('finish', () => {
         cb(null, objs);
       });
-      stream.on('error', (err) => {
+      stream.on('error', err => {
         cb(err);
       });
       return stream;
@@ -222,7 +222,7 @@ const StreamTest = {
       const chunks = [];
 
       stream._write = (chunk, encoding, done) => {
-        if(encoding && 'buffer' !== encoding) {
+        if (encoding && 'buffer' !== encoding) {
           chunk = new Buffer(chunk.toString(encoding));
         }
         chunks.push(chunk);
@@ -231,29 +231,29 @@ const StreamTest = {
       stream.on('finish', () => {
         cb(null, chunks);
       });
-      stream.on('error', (err) => {
+      stream.on('error', err => {
         cb(err);
       });
       return stream;
     },
     toText: function v2ToText(cb) {
       return StreamTest.v2.toChunks((err, chunks) => {
-        if(err) {
+        if (err) {
           cb(err);
           return;
         }
         cb(null, Buffer.concat(chunks).toString());
       });
     },
-    syncReadableChunks: function v2SyncReadableChunks(chunks) {
+    syncReadableChunks: function v2SyncReadableChunks() {
       return new Stream.PassThrough();
     },
-    syncReadableObjects: function v2SyncReadableObjects(chunks) {
+    syncReadableObjects: function v2SyncReadableObjects() {
       return new Stream.PassThrough({ objectMode: true });
     },
     syncWrite: function v2SyncWrite(stream, chunks) {
       chunks = chunks || [];
-      if(!chunks.length) {
+      if (!chunks.length) {
         stream.end();
       } else {
         stream.write(chunks.shift());
@@ -262,7 +262,7 @@ const StreamTest = {
     },
     syncError: function v2SyncError(stream, err, chunks) {
       chunks = chunks || [];
-      if(!chunks.length) {
+      if (!chunks.length) {
         stream.emit('error', err);
         stream.end();
       } else {
