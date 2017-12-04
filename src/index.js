@@ -33,6 +33,7 @@ const StreamTest = {
       return StreamTest.v1.fromErroredObjects.apply(this, arguments);
     },
     __emitToStream: function v1EmitToStream(stream, chunks, timeout, endcb) {
+      chunks = chunks.slice();
       setTimeout(() => {
         if (!chunks.length) {
           setTimeout(stream.emit.bind(stream, 'end'), timeout || 0);
@@ -127,7 +128,7 @@ const StreamTest = {
     fromObjects: function v2FromObjects(objects, timeout) {
       const stream = StreamTest.v2.readable({ objectMode: true });
 
-      objects = objects || [];
+      objects = objects ? objects.slice() : [];
       stream._read = () => {
         let object = null;
 
@@ -143,7 +144,7 @@ const StreamTest = {
     fromErroredObjects: function v2FromErroredObjects(err, objects, timeout) {
       const stream = StreamTest.v2.readable({ objectMode: true });
 
-      objects = objects || [];
+      objects = objects ? objects.slice() : [];
       stream._read = () => {
         let object = null;
 
@@ -163,7 +164,7 @@ const StreamTest = {
     fromChunks: function v2FromChunks(chunks, timeout) {
       const stream = StreamTest.v2.readable();
 
-      chunks = chunks || [];
+      chunks = chunks ? chunks.slice() : [];
       stream._read = () => {
         let chunk = null;
 
@@ -179,7 +180,7 @@ const StreamTest = {
     fromErroredChunks: function v2FromErroredChunks(err, chunks, timeout) {
       const stream = StreamTest.v2.readable();
 
-      chunks = chunks || [];
+      chunks = chunks ? chunks.slice() : [];
       stream._read = () => {
         let chunk = null;
 
