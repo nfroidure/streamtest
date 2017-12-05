@@ -15,9 +15,7 @@ describe('StreamTest', () => {
     describe('for ' + version + ' streams', () => {
       it('should work with buffers', done => {
         const expectedBuffers = [new Buffer('test'), new Buffer('test2')];
-        const inputStream = StreamTest[version].fromChunks(
-          expectedBuffers.slice(0)
-        );
+        const inputStream = StreamTest[version].fromChunks(expectedBuffers);
         const outputStream = StreamTest[version].toChunks((err, buffers) => {
           if (err) {
             done(err);
@@ -34,7 +32,7 @@ describe('StreamTest', () => {
         const expectedBuffers = [new Buffer('test'), new Buffer('test2')];
         const inputStream = StreamTest[version].fromErroredChunks(
           new Error('Ooops'),
-          expectedBuffers.slice(0)
+          expectedBuffers
         );
         const outputStream = StreamTest[version].toChunks((err, buffers) => {
           assert(err);
@@ -50,9 +48,7 @@ describe('StreamTest', () => {
 
       it('should work when wanting whole text', done => {
         const expectedBuffers = ['test', 'test2'];
-        const inputStream = StreamTest[version].fromObjects(
-          expectedBuffers.slice(0)
-        );
+        const inputStream = StreamTest[version].fromObjects(expectedBuffers);
         const outputStream = StreamTest[version].toText((err, buffers) => {
           if (err) {
             done(err);
@@ -69,7 +65,7 @@ describe('StreamTest', () => {
         const expectedBuffers = [new Buffer('test'), new Buffer('test2')];
         const inputStream = StreamTest[version].fromErroredChunks(
           new Error('Ooops'),
-          expectedBuffers.slice(0)
+          expectedBuffers
         );
         const outputStream = StreamTest[version].toText((err, buffers) => {
           assert(err);
@@ -93,9 +89,7 @@ describe('StreamTest', () => {
             test: 'test2',
           },
         ];
-        const inputStream = StreamTest[version].fromObjects(
-          expectedObjs.slice(0)
-        );
+        const inputStream = StreamTest[version].fromObjects(expectedObjs);
         const outputStream = StreamTest[version].toObjects((err, objs) => {
           if (err) {
             done(err);
@@ -119,7 +113,7 @@ describe('StreamTest', () => {
         ];
         const inputStream = StreamTest[version].fromErroredObjects(
           new Error('Ooops'),
-          expectedObjs.slice(0)
+          expectedObjs
         );
         const outputStream = StreamTest[version].toObjects((err, objs) => {
           assert(err);
