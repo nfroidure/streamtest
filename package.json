@@ -61,7 +61,7 @@
     "prettier": "^1.8.2"
   },
   "dependencies": {
-    "readable-stream": "^2.0.5"
+    "readable-stream": "^2.3.6"
   },
   "engines": {
     "node": ">=6.9.5"
