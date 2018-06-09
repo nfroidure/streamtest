@@ -1,6 +1,6 @@
 {
   "name": "streamtest",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "Streams test library",
   "main": "src/index.js",
   "metapak": {
