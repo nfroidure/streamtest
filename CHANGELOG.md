@@ -1,9 +1,6 @@
 <a name="1.2.3"></a>
 ## [1.2.3](https://github.com/nfroidure/streamtest/compare/v1.2.2...v1.2.3) (2017-12-03)
 
-
-
-
 ### v1.2.2 (2016/03/19 15:59 +00:00)
 - [e147252](https://github.com/nfroidure/streamtest/commit/e147252dcabc632a5c778d8b55806f7bd7d5f436) Bump version to 1.2.2. (@bitzl)
 - [556a4b6](https://github.com/nfroidure/streamtest/commit/556a4b697e4dbd1b013afc525b2cffc64300eee5) Fixed internal naming. (@bitzl)
