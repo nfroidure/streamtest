@@ -8,11 +8,17 @@
 > Streams test library
 
 [![NPM version](https://badge.fury.io/js/streamtest.svg)](https://npmjs.org/package/streamtest)
+
 [![Build status](https://secure.travis-ci.org/nfroidure/streamtest.svg)](https://travis-ci.org/nfroidure/streamtest)
+
 [![Dependency Status](https://david-dm.org/nfroidure/streamtest.svg)](https://david-dm.org/nfroidure/streamtest)
+
 [![devDependency Status](https://david-dm.org/nfroidure/streamtest/dev-status.svg)](https://david-dm.org/nfroidure/streamtest#info=devDependencies)
+
 [![Coverage Status](https://coveralls.io/repos/nfroidure/streamtest/badge.svg?branch=master)](https://coveralls.io/r/nfroidure/streamtest?branch=master)
+
 [![Code Climate](https://codeclimate.com/github/nfroidure/streamtest.svg)](https://codeclimate.com/github/nfroidure/streamtest)
+
 [![Dependency Status](https://dependencyci.com/github/nfroidure/streamtest/badge)](https://dependencyci.com/github/nfroidure/streamtest)
 
 
@@ -67,49 +73,49 @@ describe('My Stream Lib', function() {
 });
 ```
 
-## API
+## API
 
-### StreamTest.versions:Array
+### `StreamTest.versions:Array`
 List of supported versions (currently v1 and v2).
 
-### StreamTest[version]:Object
+### `StreamTest[version]:Object`
 Object available for each version containing the following methods.
 
-### StreamTest[version].fromChunks(chunks:Array, timeout:Number)
+### `StreamTest[version].fromChunks(chunks:Array, timeout:Number)`
 
 Create a readable stream streaming `chunks` each `timeout` milliseconds and then
  end. Usefull for testing buffer based streams.
 
-### StreamTest[version].fromObjects(objects:Array, timeout:Number)
+### `StreamTest[version].fromObjects(objects:Array, timeout:Number)`
 
 Create a readable stream streaming `objects` each `timeout` milliseconds and
  then end. Usefull for testing objectMode based streams.
 
-### StreamTest[version].fromErroredChunks(err:Error, chunks:Array, timeout:Number)
+### `StreamTest[version].fromErroredChunks(err:Error, chunks:Array, timeout:Number)`
 
 Create a readable stream streaming `chunks` each `timeout` milliseconds, emit
  the `err` error and then end. Usefull for testing buffer based streams.
 
-### StreamTest[version].fromErroredObjects(err:Error, objects:Array, timeout:Number)
+### `StreamTest[version].fromErroredObjects(err:Error, objects:Array, timeout:Number)`
 
 Create a readable stream streaming `objects` each `timeout` milliseconds, emit
  the `err` error and then end. Usefull for testing objectMode based streams.
 
-### StreamTest[version].toChunks(cb:Function)
+### `StreamTest[version].toChunks(cb:Function)`
 
 Create a writable stream collecting written `chunks` and calling the `cb`
  function when it finishes.
 
 The `cb` function take in an error and an Array of chunks.
 
-### StreamTest[version].toObjects(cb:Function)
+### `StreamTest[version].toObjects(cb:Function)`
 
 Create a writable stream collecting written `chunks` and calling the `cb`
  function when it finishes.
 
 The `cb` function take in an error and an Array of objects.
 
-### StreamTest[version].toText(cb:Function)
+### `StreamTest[version].toText(cb:Function)`
 
 Create a writable stream collecting written `chunks` and calling the `cb`
  function when it finishes with the whole content converted to text.
