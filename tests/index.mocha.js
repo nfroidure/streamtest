@@ -14,7 +14,7 @@ describe('StreamTest', () => {
   StreamTest.versions.forEach(version => {
     describe('for ' + version + ' streams', () => {
       it('should work with buffers', done => {
-        const expectedBuffers = [new Buffer('test'), new Buffer('test2')];
+        const expectedBuffers = [Buffer.from('test'), Buffer.from('test2')];
         const inputStream = StreamTest[version].fromChunks(expectedBuffers);
         const outputStream = StreamTest[version].toChunks((err, buffers) => {
           if (err) {
@@ -29,7 +29,7 @@ describe('StreamTest', () => {
       });
 
       it('should report errors with buffers', done => {
-        const expectedBuffers = [new Buffer('test'), new Buffer('test2')];
+        const expectedBuffers = [Buffer.from('test'), Buffer.from('test2')];
         const inputStream = StreamTest[version].fromErroredChunks(
           new Error('Ooops'),
           expectedBuffers
@@ -62,7 +62,7 @@ describe('StreamTest', () => {
       });
 
       it('should report errors when wanting whole text', done => {
-        const expectedBuffers = [new Buffer('test'), new Buffer('test2')];
+        const expectedBuffers = [Buffer.from('test'), Buffer.from('test2')];
         const inputStream = StreamTest[version].fromErroredChunks(
           new Error('Ooops'),
           expectedBuffers
