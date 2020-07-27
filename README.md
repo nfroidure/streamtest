@@ -7,19 +7,14 @@
 # streamtest
 > Streams test library
 
-[![NPM version](https://badge.fury.io/js/streamtest.svg)](https://npmjs.org/package/streamtest)
-
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/nfroidure/streamtest/blob/master/LICENSE)
 [![Build status](https://secure.travis-ci.org/nfroidure/streamtest.svg)](https://travis-ci.org/nfroidure/streamtest)
-
-[![Dependency Status](https://david-dm.org/nfroidure/streamtest.svg)](https://david-dm.org/nfroidure/streamtest)
-
-[![devDependency Status](https://david-dm.org/nfroidure/streamtest/dev-status.svg)](https://david-dm.org/nfroidure/streamtest#info=devDependencies)
-
 [![Coverage Status](https://coveralls.io/repos/nfroidure/streamtest/badge.svg?branch=master)](https://coveralls.io/r/nfroidure/streamtest?branch=master)
-
+[![NPM version](https://badge.fury.io/js/streamtest.svg)](https://npmjs.org/package/streamtest)
+[![Dependency Status](https://david-dm.org/nfroidure/streamtest.svg)](https://david-dm.org/nfroidure/streamtest)
+[![devDependency Status](https://david-dm.org/nfroidure/streamtest/dev-status.svg)](https://david-dm.org/nfroidure/streamtest#info=devDependencies)
+[![Package Quality](http://npm.packagequality.com/shield/streamtest.svg)](http://packagequality.com/#?package=streamtest)
 [![Code Climate](https://codeclimate.com/github/nfroidure/streamtest.svg)](https://codeclimate.com/github/nfroidure/streamtest)
-
-[![Dependency Status](https://dependencyci.com/github/nfroidure/streamtest/badge)](https://dependencyci.com/github/nfroidure/streamtest)
 
 
 [//]: # (::contents:start)
@@ -146,6 +141,9 @@ npm test
 
 
 [//]: # (::contents:end)
+
+# Authors
+- [Nicolas Froidure](https://insertafter.com/en/index.html)
 
 # License
 [MIT](https://github.com/nfroidure/streamtest/blob/master/LICENSE)

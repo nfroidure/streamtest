@@ -56,13 +56,13 @@ const StreamTest = {
       const objs = [];
       const stream = StreamTest.v1.writable();
 
-      stream.write = obj => {
+      stream.write = (obj) => {
         objs.push(obj);
       };
       stream.end = () => {
         cb(null, objs);
       };
-      stream.on('error', err => {
+      stream.on('error', (err) => {
         cb(err);
       });
       return stream;
@@ -71,13 +71,13 @@ const StreamTest = {
       const chunks = [];
       const stream = StreamTest.v1.writable();
 
-      stream.write = chunk => {
+      stream.write = (chunk) => {
         chunks.push(Buffer.from(chunk));
       };
       stream.end = () => {
         cb(null, chunks);
       };
-      stream.on('error', err => {
+      stream.on('error', (err) => {
         cb(err);
       });
       return stream;
@@ -213,7 +213,7 @@ const StreamTest = {
       stream.on('finish', () => {
         cb(null, objs);
       });
-      stream.on('error', err => {
+      stream.on('error', (err) => {
         cb(err);
       });
       return stream;
@@ -232,7 +232,7 @@ const StreamTest = {
       stream.on('finish', () => {
         cb(null, chunks);
       });
-      stream.on('error', err => {
+      stream.on('error', (err) => {
         cb(err);
       });
       return stream;
