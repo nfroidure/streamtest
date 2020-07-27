@@ -72,7 +72,7 @@ const StreamTest = {
       const stream = StreamTest.v1.writable();
 
       stream.write = chunk => {
-        chunks.push(new Buffer(chunk));
+        chunks.push(Buffer.from(chunk));
       };
       stream.end = () => {
         cb(null, chunks);
@@ -224,7 +224,7 @@ const StreamTest = {
 
       stream._write = (chunk, encoding, done) => {
         if (encoding && 'buffer' !== encoding) {
-          chunk = new Buffer(chunk.toString(encoding));
+          chunk = Buffer.from(chunk.toString(encoding));
         }
         chunks.push(chunk);
         done();
