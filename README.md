@@ -135,11 +135,6 @@ Then, run the tests:
 npm test
 ```
 
-## Stats
-[![NPM](https://nodei.co/npm/streamtest.png?downloads=true&stars=true)](https://nodei.co/npm/streamtest/)
-[![NPM](https://nodei.co/npm-dl/streamtest.png)](https://nodei.co/npm/streamtest/)
-
-
 [//]: # (::contents:end)
 
 # Authors
