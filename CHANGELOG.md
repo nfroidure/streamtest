@@ -1,3 +1,7 @@
+# [3.0.0](https://github.com/nfroidure/streamtest/compare/v2.0.0...v3.0.0) (2024-07-16)
+
+
+
 # [2.0.0](https://github.com/nfroidure/streamtest/compare/v1.2.4...v2.0.0) (2020-07-27)
 
 
