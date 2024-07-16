@@ -8,9 +8,9 @@ engines:
 
 ratings:
    paths:
-   - "src/*.ts"
+   - "'src/**/*.ts'"
 ## Exclude test files.
 exclude_patterns:
 - "dist/"
 - "**/node_modules/"
-- "src/*.mocha.ts"
+- "src/**/*.tests.ts"

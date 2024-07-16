@@ -1,6 +1,16 @@
 import { Readable, Writable } from 'node:stream';
 
+/** @namespace */
 const StreamTest = {
+  /**
+   * Create a readable stream streaming `objects` each
+   *  `timeout` milliseconds and then end. Usefull for
+   *  testing objectMode based streams.
+   * @function
+   * @param objects Array<Object>
+   * @param timeout number
+   * @returns Readable
+   */
     fromObjects: function fromObjects<T>(objects: T[] = [], timeout: number = 0): Readable {
       const stream = new Readable({ objectMode: true });
       const objectsLeft = objects.slice();
@@ -20,7 +30,18 @@ const StreamTest = {
       };
       return stream;
     },
-    fromErroredObjects: function fromErroredObjects<T>(err: Error, objects: T[] = [], timeout = 0) {
+    /**
+     * Create a readable stream streaming `objects` each
+     *  `timeout` milliseconds, emit the `err` error and
+     *  then end. Usefull for testing `objectMode` based
+     *  streams.
+     * @function
+     * @param err Error
+     * @param objects Object[]
+     * @param timeout number
+     * @returns Readable
+     */
+    fromErroredObjects: function fromErroredObjects<T>(err: Error, objects: T[] = [], timeout = 0): Readable {
       const stream = new Readable({ objectMode: true });
       const objectsLeft = objects.slice();
       let emitted = false;
@@ -46,7 +67,16 @@ const StreamTest = {
       };
       return stream;
     },
-    fromChunks: function fromChunks(chunks: Buffer[] = [], timeout: number = 0) {
+    /**
+     * Create a readable stream streaming `chunks` each
+     *  `timeout` milliseconds and then end. Usefull for
+     *  testing buffer based streams.
+     * @function
+     * @param chunks Buffer[]
+     * @param timeout number
+     * @returns Readable
+     */
+    fromChunks: function fromChunks(chunks: Buffer[] = [], timeout: number = 0):Readable {
       const stream = new Readable();
       const chunksLeft = chunks.slice();
 
@@ -65,6 +95,16 @@ const StreamTest = {
       };
       return stream;
     },
+    /**
+     * Create a readable stream streaming `chunks` each
+     *  `timeout` milliseconds, emit the `err` error and
+     *  then end. Usefull for testing buffer based streams.
+     * @function
+     * @param err Error
+     * @param objects Object[]
+     * @param timeout number
+     * @returns Readable
+     */
     fromErroredChunks: function fromErroredChunks(err: Error, chunks: Buffer[] = [], timeout: number = 0) {
       const stream = new Readable();
       const chunksLeft = chunks.slice();
@@ -90,6 +130,13 @@ const StreamTest = {
       };
       return stream;
     },
+    /**
+     * Create a writable stream collecting written `objects`
+     *  and a promise that resolves when it finishes with
+     *  the objects collected.
+     * @function
+     * @returns [Writable, Promise<Object>]
+     */
     toObjects: function toObjects<T>(): [Writable, Promise<T[]>] {
       const stream = new Writable({ objectMode: true });
       const promise = new Promise<T[]>((resolve, reject) => {
@@ -109,6 +156,13 @@ const StreamTest = {
   
       return [stream, promise];
     },
+    /**
+     * Create a writable stream collecting written `chunks`
+     *  and a promise that resolves when it finishes with
+     *  the chunks collected.
+     * @function
+     * @returns [Writable, Promise<Buffer[]>]
+     */
     toChunks: function toChunks(): [Writable, Promise<Buffer[]>] {
       const stream = new Writable();
         const promise = new Promise<Buffer[]>((resolve, reject) => {
@@ -132,6 +186,13 @@ const StreamTest = {
     
         return [stream, promise];
     },
+    /**
+     * Create a writable stream collecting written text
+     *  and a promise that resolves when it finishes with
+     *  the whole text content.
+     * @function
+     * @returns [Writable, Promise<string>]
+     */
     toText: function toText(): [Writable, Promise<string>] {
       const [stream, promise] = StreamTest.toChunks();
 
