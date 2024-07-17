@@ -1,3 +1,12 @@
+## [3.0.1](https://github.com/nfroidure/streamtest/compare/v3.0.0...v3.0.1) (2024-07-17)
+
+
+### Bug Fixes
+
+* **core:** fix for errored streams ([05390be](https://github.com/nfroidure/streamtest/commit/05390becdda9773ea6dd3ad28715ba467a731ca6))
+
+
+
 # [3.0.0](https://github.com/nfroidure/streamtest/compare/v2.0.0...v3.0.0) (2024-07-16)
 
 
