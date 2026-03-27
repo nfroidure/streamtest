@@ -24,7 +24,7 @@
     }
   },
   "name": "streamtest",
-  "version": "3.0.1",
+  "version": "4.0.0",
   "description": "Streams test library",
   "main": "dist/index.js",
   "scripts": {
