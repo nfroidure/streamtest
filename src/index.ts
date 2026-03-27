@@ -13,7 +13,7 @@ const StreamTest = {
    */
   fromObjects: function fromObjects<T>(
     objects: T[] = [],
-    timeout: number = 0,
+    timeout = 0,
   ): Readable {
     const stream = new Readable({ objectMode: true });
     const objectsLeft = objects.slice();
@@ -75,20 +75,20 @@ const StreamTest = {
    *  `timeout` milliseconds and then end. Usefull for
    *  testing buffer based streams.
    * @function
-   * @param chunks Buffer[]
+   * @param chunks Uint8Array[]
    * @param timeout number
    * @returns Readable
    */
   fromChunks: function fromChunks(
-    chunks: Buffer[] = [],
-    timeout: number = 0,
+    chunks: (Buffer | Uint8Array)[] = [],
+    timeout = 0,
   ): Readable {
     const stream = new Readable();
     const chunksLeft = chunks.slice();
 
     stream._read = () => {
       if (chunksLeft.length) {
-        const chunk: Buffer = chunksLeft.shift() as Buffer;
+        const chunk: Uint8Array = chunksLeft.shift() as Uint8Array;
 
         setTimeout(() => {
           stream.push(chunk);
@@ -113,15 +113,15 @@ const StreamTest = {
    */
   fromErroredChunks: function fromErroredChunks(
     err: Error,
-    chunks: Buffer[] = [],
-    timeout: number = 0,
+    chunks: (Buffer | Uint8Array)[] = [],
+    timeout = 0,
   ) {
     const stream = new Readable();
     const chunksLeft = chunks.slice();
 
     stream._read = () => {
       if (chunksLeft.length) {
-        const chunk: Buffer = chunksLeft.shift() as Buffer;
+        const chunk: Uint8Array = chunksLeft.shift() as Uint8Array;
 
         setTimeout(() => {
           stream.push(chunk);
@@ -168,18 +168,20 @@ const StreamTest = {
    *  and a promise that resolves when it finishes with
    *  the chunks collected.
    * @function
-   * @returns [Writable, Promise<Buffer[]>]
+   * @returns [Writable, Promise<Uint8Array[]>]
    */
-  toChunks: function toChunks(): [Writable, Promise<Buffer[]>] {
+  toChunks: function toChunks(): [Writable, Promise<Uint8Array[]>] {
     const stream = new Writable();
-    const promise = new Promise<Buffer[]>((resolve, reject) => {
-      const chunks: Buffer[] = [];
+    const promise = new Promise<Uint8Array[]>((resolve, reject) => {
+      const chunks: Uint8Array[] = [];
 
-      stream._write = (chunk: Buffer, encoding, done) => {
+      stream._write = (chunk, encoding, done) => {
         if (encoding === 'binary') {
           chunks.push(chunk);
         } else {
-          chunks.push(Buffer.alloc(chunk.length, chunk, encoding));
+          chunks.push(
+            new Uint8Array(Buffer.alloc(chunk.length, chunk, encoding)),
+          );
         }
         done();
       };

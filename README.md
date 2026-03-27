@@ -126,7 +126,7 @@ Create a readable stream streaming `chunks` each
 
 | Param | Description |
 | --- | --- |
-| chunks | Buffer[] |
+| chunks | Uint8Array[] |
 | timeout | number |
 
 <a name="StreamTest.fromErroredChunks"></a>
@@ -162,7 +162,7 @@ Create a writable stream collecting written `chunks`
  the chunks collected.
 
 **Kind**: static method of [<code>StreamTest</code>](#StreamTest)  
-**Returns**: [Writable, Promise<Buffer[]>]  
+**Returns**: [Writable, Promise<Uint8Array[]>]  
 <a name="StreamTest.toText"></a>
 
 ### StreamTest.toText() ⇒
